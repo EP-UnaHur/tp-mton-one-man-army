@@ -1,0 +1,21 @@
+### GET All
+GET http://localhost:3000/profesores
+
+### GET Single
+GET http://localhost:3000/profesores/1
+
+### DELETE Single
+DELETE  http://localhost:3000/profesores/1
+
+### POST Profesor
+POST http://localhost:3000/profesores
+Content-Type: application/json
+
+{
+  "nombre":"pepe",
+  "legajo":1234,
+  "fechaNacimiento": "01/01/2021",
+  "activo": true
+}
+
+

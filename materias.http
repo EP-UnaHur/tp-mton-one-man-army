@@ -12,15 +12,15 @@ DELETE  http://localhost:3000/materias/1
 
 
 
-### POST Materia
-POST http://localhost:3000/carreras/1/materia
+### POST Curso
+POST http://localhost:3000/materias/1/curso
 Content-Type: application/json
 
 {
-  "nombre":"materia1",
-  "cuatrimestral":true,
-  "anio": 1,
-  "carreraId": 1
+  "comision":"curso2",
+  "turno":"mañana",
+  "fechaInicio": "01/01/2021",
+  "fechaFin": "01/01/2022"
 }
 
 

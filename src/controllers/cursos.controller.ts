@@ -53,7 +53,7 @@ export default class CursosController{
 
       if(!materia) return Promise.reject({status:404, error:"No se encontró la materia solicitada"})
 
-      const [response,err] = await handlePromise(Materia.create({carrera_id:idMateria,...curso}))
+      const [response,err] = await handlePromise(Cursos.create({carrera_id:idMateria,...curso}))
 
       if(err) return Promise.reject({status:500, error:err})
 
@@ -105,6 +105,30 @@ export default class CursosController{
       _curso.fechaFin = curso.fechaFin;
   
       const [response,errUpdate] = await handlePromise(_curso.save())
+
+      if(err) return Promise.reject({status:500, error:errUpdate})
+
+      return {status:200, body: response}
+    }
+
+    static async addProfesoresToCurso(idCurso:number,idsProfesores:number[]):Promise<CursoResponse>{
+      const [curso,err] = await handlePromise(Cursos.findByPk(idCurso))
+
+      if(err) return Promise.reject({status:500, error:err})
+
+      if(!curso) return Promise.reject({status:404, error:"No se encontró el curso solicitado"})
+
+      const [profesores,profesoresErr] = await handlePromise(
+        Profesores.findAll({
+          where: { id: idsProfesores },
+        })
+      )
+
+      if(err) return Promise.reject({status:500, error:profesoresErr})
+
+      if(profesores.length !== idsProfesores.length) return Promise.reject({status:404, error:"No se encontró alguno de los profesores solicitados"})
+
+      const [response,errUpdate] = await handlePromise(curso.addProfesores(profesores))
 
       if(err) return Promise.reject({status:500, error:errUpdate})
 

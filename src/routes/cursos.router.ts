@@ -79,8 +79,33 @@ router.route("/cursos/:id/profesores")
 
                 res.status(response.status).send(response.body)
         })
-        .post((req:Request,res:Response)=>{
+        .post(async(req:Request,res:Response)=>{
+                const id = parseInt(req.params.id)
 
+                if(isNaN(id)) return res.status(400).send("El id de curso debe ser numerico")
+
+                const {idsProfesores} = req.body
+
+                let ids:number[] = []
+
+                for( let id in idsProfesores){
+                        const _id = parseInt(idsProfesores[id])
+
+                        if(isNaN(_id))
+                                 return res.status(400).send("Los ids de profesor deben ser numericos")
+
+                        ids.push(_id)
+                }
+
+
+                const [response, err] = await handlePromise(CursosController.addProfesoresToCurso(id,ids))  
+
+                if(err) {
+                        console.error(err)
+                        return res.status(err.status).send(err.error)
+                }
+
+                res.status(response.status).send(response.body)
         })      
 
 export default router

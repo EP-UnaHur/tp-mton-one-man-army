@@ -1,0 +1,18 @@
+### GET All
+GET http://localhost:3000/cursos
+
+### GET Single
+GET http://localhost:3000/cursos/1
+
+### DELETE Single
+DELETE  http://localhost:3000/cursos/1
+
+### POST Profesor
+POST http://localhost:3000/cursos/1/profesores
+Content-Type: application/json
+
+{
+  "idsProfesores":["1"]
+}
+
+

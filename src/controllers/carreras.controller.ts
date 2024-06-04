@@ -4,8 +4,6 @@ import Carrera from "../types/carrera"
 import ApiResponse from "../types/api-response"
 const {Carreras} = db
 
-console.log({db})
-
 type CarreraArrayResponse = ApiResponse<Carrera[]>
 type CarreraResponse = ApiResponse<Carrera>
 
