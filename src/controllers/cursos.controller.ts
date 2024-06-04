@@ -78,7 +78,7 @@ export default class CursosController{
 
       if(err) return Promise.reject({status:500, error:err})
 
-      if(!curso) return Promise.reject({status:404, error:"No se encontró el curso solicitado"})
+      if(!_curso) return Promise.reject({status:404, error:"No se encontró el curso solicitado"})
 
       _curso.comision = curso.comision;
       _curso.turno = curso.turno;
