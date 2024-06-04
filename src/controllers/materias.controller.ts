@@ -2,7 +2,7 @@ import handlePromise from "../utils/promise"
 import * as db from '../db/models'
 import ApiResponse from "../types/api-response"
 import MateriaType from "../types/materia"
-const { Materia: MateriaType,Carreras} = db
+const { Materia,Carreras} = db
 
 type MateriaArrayResponse = ApiResponse<MateriaType[]>
 type MateriaResponse = ApiResponse<MateriaType>
@@ -18,7 +18,7 @@ export default class MateriasController{
       
       const [materias,err] = await handlePromise(
         Carreras.findByPk(idCarrera, {
-          include: [{ model: MateriaType, as: "materias" }],
+          include: [{ model: Materia, as: "materias" }],
         })
       )
 
@@ -28,7 +28,7 @@ export default class MateriasController{
     }
 
     static async getAll():Promise<MateriaArrayResponse>{
-      const [materias,err] = await handlePromise(MateriaType.findAll({}))
+      const [materias,err] = await handlePromise(Materia.findAll({}))
 
       if(err) return Promise.reject({status:500, error:err})
 
@@ -36,7 +36,7 @@ export default class MateriasController{
   }
 
     static async getSingle(id:number):Promise<MateriaResponse>{
-        const [materia,err] = await handlePromise(MateriaType.findByPk(id))
+        const [materia,err] = await handlePromise(Materia.findByPk(id))
 
         if(err) return Promise.reject({status:500, error:err})
 
@@ -52,7 +52,7 @@ export default class MateriasController{
 
         if(!carrera) return Promise.reject({status:404, error:"No se encontró la carrera solicitada"})
 
-        const [response,err] = await handlePromise(MateriaType.create({carrera_id:idCarrera,...materia}))
+        const [response,err] = await handlePromise(Materia.create({carrera_id:idCarrera,...materia}))
 
         if(err) return Promise.reject({status:500, error:err})
 
@@ -60,16 +60,16 @@ export default class MateriasController{
     }
 
     static async deleteById(id:number):Promise<MateriaResponse>{
-      const [materia,err] = await handlePromise(MateriaType.findByPk(id))
+      const [materia,err] = await handlePromise(Materia.findByPk(id))
 
       if(err) return Promise.reject({status:500, error:err})
 
       if(!materia) return Promise.reject({status:404, error:"No se encontró la materia solicitada"})
 
-      const [response,errDelete] = await handlePromise(await MateriaType.destroy({ where: { id } }))
+      const [response,errDelete] = await handlePromise(Materia.destroy({ where: { id } }))
 
       if(err) return Promise.reject({status:500, error:errDelete})
 
       return {status:200, body: response}
-  }
+    }
 }

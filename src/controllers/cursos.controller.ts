@@ -1,0 +1,94 @@
+import handlePromise from "../utils/promise"
+import * as db from '../db/models'
+import ApiResponse from "../types/api-response"
+import Curso from "../types/curso"
+const { Materia,Cursos} = db
+
+type CursoArrayResponse = ApiResponse<Curso[]>
+type CursoResponse = ApiResponse<Curso>
+
+export default class CursosController{
+    static async getByIdMateria(idMateria:number):Promise<CursoArrayResponse>{
+
+      const [materia,errMateria] = await handlePromise(Materia.findByPk(idMateria))
+
+      if(errMateria) return Promise.reject({status:500, error:errMateria})
+
+      if(!materia) return Promise.reject({status:404, error:"No se encontró la materia solicitada"})
+      
+      const [cursos,err] = await handlePromise(
+        Materia.findByPk(idMateria, {
+          include: [{ model: Cursos, as: "cursos" }],
+        })
+      )
+
+      if(err) return Promise.reject({status:500, error:err})
+
+      return {status:200, body: cursos}
+    }
+
+    static async putSingle(idMateria:number,curso:Curso):Promise<CursoResponse>{
+      const [materia,errMateria] = await handlePromise(Materia.findByPk(idMateria))
+
+      if(errMateria) return Promise.reject({status:500, error:errMateria})
+
+      if(!materia) return Promise.reject({status:404, error:"No se encontró la materia solicitada"})
+
+      const [response,err] = await handlePromise(Materia.create({carrera_id:idMateria,...curso}))
+
+      if(err) return Promise.reject({status:500, error:err})
+
+      return {status:201, body: response}
+  }
+
+    static async getAll():Promise<CursoArrayResponse>{
+      const [cursos,err] = await handlePromise(Cursos.findAll({}))
+
+      if(err) return Promise.reject({status:500, error:err})
+
+      return {status:200, body: cursos}
+  }
+
+    static async getSingle(id:number):Promise<CursoResponse>{
+        const [curso,err] = await handlePromise(Cursos.findByPk(id))
+
+        if(err) return Promise.reject({status:500, error:err})
+
+        if(!curso) return Promise.reject({status:404, error:"No se encontró el curso solicitado"})
+
+        return {status:200, body: curso}
+    } 
+
+    static async deleteById(id:number):Promise<CursoResponse>{
+      const [curso,err] = await handlePromise(Cursos.findByPk(id))
+
+      if(err) return Promise.reject({status:500, error:err})
+
+      if(!curso) return Promise.reject({status:404, error:"No se encontró el curso solicitado"})
+
+      const [response,errDelete] = await handlePromise(Cursos.destroy({ where: { id } }))
+
+      if(err) return Promise.reject({status:500, error:errDelete})
+
+      return {status:200, body: response}
+    }
+
+    static async updateById(id:number,curso:Curso):Promise<CursoResponse>{
+      const [_curso,err] = await handlePromise(Cursos.findByPk(id))
+
+      if(err) return Promise.reject({status:500, error:err})
+
+      if(!curso) return Promise.reject({status:404, error:"No se encontró el curso solicitado"})
+
+      _curso.comision = curso.comision;
+      _curso.turno = curso.turno;
+      _curso.fechaInicio = curso.fechaInicio;
+      _curso.fechaFin = curso.fechaFin;
+  
+      const [response,errUpdate] = await handlePromise(_curso.save())
+
+      if(err) return Promise.reject({status:500, error:errUpdate})
+
+      return {status:200, body: response}
+    }
+}

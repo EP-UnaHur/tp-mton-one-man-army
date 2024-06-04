@@ -1,0 +1,27 @@
+### GET All
+GET http://localhost:3000/materias
+
+### GET Single
+GET http://localhost:3000/materias/1
+
+### DELETE Single
+DELETE  http://localhost:3000/materias/1
+
+
+
+
+
+
+### POST Materia
+POST http://localhost:3000/carreras/1/materia
+Content-Type: application/json
+
+{
+  "nombre":"materia1",
+  "cuatrimestral":true,
+  "anio": 1,
+  "carreraId": 1
+}
+
+
+
