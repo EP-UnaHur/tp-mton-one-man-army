@@ -1,0 +1,15 @@
+### GET All
+GET http://localhost:3000/carreras
+
+### GET Single
+GET http://localhost:3000/carreras/1
+
+### PUT Single
+POST http://localhost:3000/carreras
+Content-Type: application/json
+
+{
+  "nombre":"Tecnicatura en Programación",
+  "grado":"Universitario",
+  "universidad":"UNAHUR"
+}

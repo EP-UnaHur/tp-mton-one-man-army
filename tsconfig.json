@@ -7,6 +7,8 @@
       "allowJs": true,
       // Generate d.ts files
       "declaration": true,
+      "target": "ESNext",
+      "moduleResolution":"NodeNext",
       // This compiler run should
       // only output d.ts files
       "emitDeclarationOnly": true,

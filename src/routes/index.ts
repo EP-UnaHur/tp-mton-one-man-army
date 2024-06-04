@@ -1,7 +1,7 @@
-import CarrerasRouter from './carreras'
-import CursosRouter from './cursos'
-import MateriasRouter from './materias'
-import ProfesoresRouter from './profesores'
+import CarrerasRouter from './carreras.router'
+import CursosRouter from './cursos.router'
+import MateriasRouter from './materias.router'
+import ProfesoresRouter from './profesores.router'
 
 import { Router } from 'express'
 
