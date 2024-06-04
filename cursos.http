@@ -4,15 +4,20 @@ GET http://localhost:3000/cursos
 ### GET Single
 GET http://localhost:3000/cursos/1
 
+
+
 ### DELETE Single
 DELETE  http://localhost:3000/cursos/1
+
+### GET Profesores por curso
+GET http://localhost:3000/cursos/1/profesores
 
 ### POST Profesor
 POST http://localhost:3000/cursos/1/profesores
 Content-Type: application/json
 
 {
-  "idsProfesores":["1"]
+  "idsProfesores":["2","3","4"]
 }
 
 

@@ -26,7 +26,7 @@ export default class ProfesoresController{
       
       const [profesores,err] = await handlePromise(
         Cursos.findByPk(idCurso, {
-          include: [{ model: Cursos, as: "cursos" }],
+          include: [{ model: Profesores, as: "profesores" }],
         })
       )
 
