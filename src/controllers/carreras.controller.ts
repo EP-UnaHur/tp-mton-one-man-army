@@ -4,6 +4,8 @@ import Carrera from "../types/carrera"
 import ApiResponse from "../types/api-response"
 const {Carreras} = db
 
+console.log({db})
+
 type CarreraArrayResponse = ApiResponse<Carrera[]>
 type CarreraResponse = ApiResponse<Carrera>
 
@@ -31,8 +33,6 @@ export default class CarrerasController{
 
         if(err) return Promise.reject({status:500, error:err})
 
-        if(!carrera) return Promise.reject({status:404, error:"No se encontró la carrera solicitada"})
-
         return {status:201, body: response}
-    } 
+    }
 }
