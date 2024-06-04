@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import handlePromise from '../utils/promise'
 import ProfesoresController from '../controllers/profesores.controller'
+import CursosController from '../controllers/cursos.controller'
 
 const router = Router()
 
@@ -77,8 +78,19 @@ router.route("/profesores/:id")
         })
 
 router.route("/profesores/:id/cursos")
-        .get((req:Request,res:Response)=>{
+        .get(async(req:Request,res:Response)=>{
+                const id = parseInt(req.params.id)
 
+                if(isNaN(id)) return res.status(400).send("El id de profesor debe ser numerico")
+
+                const [response, err] = await handlePromise(CursosController.getByIdProfesor(id))  
+
+                if(err) {
+                        console.error(err)
+                        return res.status(err.status).send(err.error)
+                }
+
+                res.status(response.status).send(response.body)
         })
      
 

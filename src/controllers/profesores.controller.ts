@@ -2,7 +2,7 @@ import handlePromise from "../utils/promise"
 import * as db from '../db/models'
 import ApiResponse from "../types/api-response"
 import Profesor from "../types/profesor"
-const { Profesores } = db
+const { Profesores, Cursos } = db
 
 type ProfesorArrayResponse = ApiResponse<Profesor[]>
 type ProfesorResponse = ApiResponse<Profesor>
@@ -10,6 +10,25 @@ type ProfesorResponse = ApiResponse<Profesor>
 export default class ProfesoresController{
     static async getAll():Promise<ProfesorArrayResponse>{
       const [profesores,err] = await handlePromise(Profesores.findAll({}))
+
+      if(err) return Promise.reject({status:500, error:err})
+
+      return {status:200, body: profesores}
+    }
+
+    static async getByIdCurso(idCurso:number):Promise<ProfesorArrayResponse>{
+
+      const [curso,errCurso] = await handlePromise(Cursos.findByPk(idCurso))
+
+      if(errCurso) return Promise.reject({status:500, error:errCurso})
+
+      if(!curso) return Promise.reject({status:404, error:"No se encontró el curso solicitada"})
+      
+      const [profesores,err] = await handlePromise(
+        Cursos.findByPk(idCurso, {
+          include: [{ model: Cursos, as: "cursos" }],
+        })
+      )
 
       if(err) return Promise.reject({status:500, error:err})
 

@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import CursosController from '../controllers/cursos.controller'
 import handlePromise from '../utils/promise'
+import ProfesoresController from '../controllers/profesores.controller'
 
 const router = Router()
 
@@ -18,7 +19,6 @@ router.route("/cursos")
 
 router.route("/cursos/:id")
         .get(async (req:Request,res:Response)=>{
-
                 const id = parseInt(req.params.id)
 
                 if(isNaN(id)) return res.status(400).send("El id de curso debe ser numerico")
@@ -65,8 +65,19 @@ router.route("/cursos/:id")
         })
 
 router.route("/cursos/:id/profesores")
-        .get((req:Request,res:Response)=>{
+        .get(async(req:Request,res:Response)=>{
+                const id = parseInt(req.params.id)
 
+                if(isNaN(id)) return res.status(400).send("El id de curso debe ser numerico")
+
+                const [response, err] = await handlePromise(ProfesoresController.getByIdCurso(id))  
+
+                if(err) {
+                        console.error(err)
+                        return res.status(err.status).send(err.error)
+                }
+
+                res.status(response.status).send(response.body)
         })
         .post((req:Request,res:Response)=>{
 
