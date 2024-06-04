@@ -3,6 +3,21 @@
 
 # Estrategias de Persistencia - TP 2024
 
+## Instalacion
+
+1. Instalar nodemon, typescript, tsnode y tsc globalmente `npm i -G nodemon typescript tsnode tsc`.
+2. Ejecutar el comando de instalacionde node en el root del proyecto `npm i`.
+3. Generar una copia del archivo `.env.example` con los valores deseados y el nombre `.env`.
+4. Modifiar la configuracion de la base de datos en `/src/db/config` por la db deseada (puede dejarse la default).
+5. Ejecutar el comando`nodemon` en el root del proyecto.
+6. Opcional: Utilizar los archivos `cursos.http` `carreras.http` `materias.http` `profesores.http` para probar los endpoints con el client RestClient de VS code, en caso de querer usar otro, los archivos sirven como documentacion de los endpoints principales.
+
+
+## Variables de entorno
+`API_PORT`: Puerto en el que corre la api, se tomara el 3000 por defecto si no se setea
+
+## Consigna
+
 Este trabajo práctico tiene como objetivo principal que los alumnos adquieran experiencia práctica en la implementación de asociaciones 1 a N y N a M en el contexto de una API REST utilizando un ORM (Object-relational mapping).
 
 - Asociaciones 1 a N y N a M:
